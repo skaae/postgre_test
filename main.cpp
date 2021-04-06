@@ -47,10 +47,6 @@ int main()
     auto xml_consumer = std::thread([&xml_queue, &conn0, poison_str] {
 
         conn0->prepare( "my_stmt", "INSERT INTO dummy_table VALUES ( $1, $2 )" );
-
-        // SETUP DATABASE CONNECTION FOR THIS THREAD.
-        // ...
-
         while (true){
             if (!xml_queue.front()){
                 std::this_thread::sleep_for(std::chrono::milliseconds(500));
@@ -65,7 +61,7 @@ int main()
                 }
                 {
                  const auto tr = conn0->transaction();
-                 tr->execute( "INSERT INTO dummy_table VALUES ( $1, $2)", 1, msg );
+                 tr->execute( "my_stmt", 1, msg );
                  tr->commit();
                 }
                 // Write to db
@@ -75,7 +71,6 @@ int main()
             }
         }
         std::cout << "cleanup" << std::endl;
-        // cleanup db connection and die
         });
 
 
