@@ -5,6 +5,7 @@ project(EPEX LANGUAGES CXX C)
 # "demo.cxx" and "demo_b.cxx". The extensions are automatically found.
 add_executable (testpost main.cpp)
 target_compile_features(testpost PUBLIC cxx_std_17)
+set_property(TARGET testpost PROPERTY C_STANDARD 17)
 # Link the executable to the Hello library. Since the Hello library has
 # public include directories we will use those link directories when building
 # helloDemo
