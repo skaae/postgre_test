@@ -30,14 +30,6 @@ jobs:
 
     - name: install system dependencies
       run: sudo apt-get install -yq libpq-dev postgresql-server-dev-all
-
-
-
-
-    env:
-
-
-
     - name: Configure CMake
       # Use a bash shell so we can use the same syntax for environment variable
       # access regardless of the host operating system
