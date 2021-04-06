@@ -69,6 +69,13 @@ auto log_xml( rigtorp::SPSCQueue<std::unique_ptr<std::string>>& queue, std::shar
 //INSERT INTO foo VALUES ( to_timestamp(1342986162) )
 int main()
 {
+
+    auto port_str = std::getenv("POSTGRES_PORT");
+    int port = 5433;
+    if (port_str){
+        port = std::stoi(port_str);
+    }
+
     const std::string poison("POISON_PILL");
 
     std::string body_xml("<Some xml string>");
@@ -79,7 +86,7 @@ int main()
     // PGPASSWORD=postgres_pw psql -h localhost -p 5433 -U postgres -f xml_stram.sql
 
     rigtorp::SPSCQueue<std::unique_ptr<std::string>> queue(123);   
-    auto conn = create_db_connection("localhost", "postgres_db", "postgres", "postgres_pw", 5433);
+    auto conn = create_db_connection("localhost", "postgres_db", "postgres", "postgres_pw", port);
 
 
 
