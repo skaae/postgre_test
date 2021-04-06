@@ -49,7 +49,7 @@ jobs:
         CXX:  clang++-10
       run: |
           cd build
-          cmake --build . --config ${BUILD_TYPE} --target testpos
+          cmake --build . --config ${BUILD_TYPE} --target testpost
     - name: C++ Test
       shell: bash
       env: 
@@ -61,4 +61,4 @@ jobs:
         PGPASSWORD=${POSTGRES_PASSWORD} psql -h localhost -p ${POSTGRES_PORT} -U postgres -d postgres_db -c 'DROP TABLE IF EXISTS xml_stream'
         PGPASSWORD=${POSTGRES_PASSWORD} psql -h localhost -p ${POSTGRES_PORT} -U postgres -d postgres_db -f ${GITHUB_WORKSPACE}/xml_stream.sql
         cd bin
-        ./testpos
+        ./testpost
