@@ -48,6 +48,13 @@ jobs:
           PGPASSWORD=${POSTGRES_PASSWORD} psql -h localhost -p ${POSTGRES_PORT} -U postgres -d postgres_db -f ${GITHUB_WORKSPACE}/xml_stream.sql
           cd build
           cmake -GNinja -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ..
-          cd ..
-          cd bin
-          ./testpos
+    - name: C++ Test
+      shell: bash
+      env: 
+        POSTGRES_DB: postgres_db
+        POSTGRES_PASSWORD: postgres_pw
+        POSTGRES_USER: postgres
+        POSTGRES_PORT: 5432
+      run: | 
+        cd bin
+        ./testpos
