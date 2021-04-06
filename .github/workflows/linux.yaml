@@ -44,6 +44,10 @@ jobs:
         POSTGRES_USER: postgres
         POSTGRES_PORT: 5432
       run: | 
+          PGPASSWORD=${POSTGRES_PASSWORD} psql -h localhost -p 5433 -U postgres -d postgres_db -c 'DROP TABLE IF EXISTS xml_stream'
+          PGPASSWORD=${POSTGRES_PASSWORD} psql -h localhost -p 5433 -U postgres -d postgres_db -f ${GITHUB_WORKSPACE}/xml_stream.sql
           cd build
           cmake -GNinja -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ..
+          cd ..
+          cd bin
           ./testpos
