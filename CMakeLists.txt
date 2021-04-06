@@ -1,11 +1,16 @@
-cmake_minimum_required(VERSION 3.4...3.18)
-project(EPEX LANGUAGES CXX C)
+cmake_minimum_required(VERSION 2.8.2)
+set(CMAKE_CXX_STANDARD 17)
+set( CMAKE_VERBOSE_MAKEFILE on )
+set(CMAKE_CXX_FLAGS "-Wall -std=gnu++17 -fPIC")
+set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 # Add executable called "helloDemo" that is built from the source files
 # "demo.cxx" and "demo_b.cxx". The extensions are automatically found.
 add_executable (testpost main.cpp)
 target_compile_features(testpost PUBLIC cxx_std_17)
-set_property(TARGET testpost PROPERTY C_STANDARD 17)
 # Link the executable to the Hello library. Since the Hello library has
 # public include directories we will use those link directories when building
 # helloDemo
