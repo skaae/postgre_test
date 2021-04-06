@@ -1,0 +1,2 @@
+CREATE TABLE xml_stream ( local_trading_date DATE NOT NULL, timestamp TIMESTAMP NOT NULL, xml TEXT NOT NULL);
+SELECT create_hypertable('xml_stream' , 'local_trading_date',  chunk_time_interval => interval '1 day');

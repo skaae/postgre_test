@@ -1,0 +1,57 @@
+name: Linux
+
+on: [push, pull_request]
+
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: timescale/timescaledb:latest-pg12
+        env:
+          POSTGRES_DB: postgres_db
+          POSTGRES_PASSWORD: postgres_pw
+          POSTGRES_USER: postgres
+        ports:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: install system dependencies
+      run: sudo apt-get install -yq libpq-dev postgresql-server-dev-all
+
+
+
+
+    env:
+
+
+
+    - name: Configure CMake
+      # Use a bash shell so we can use the same syntax for environment variable
+      # access regardless of the host operating system
+      run: mkdir ${GITHUB_WORKSPACE}/build    
+    - name: configure cmake
+      shell: bash
+      env: 
+        CC:   clang-10
+        CXX:  clang++-10
+        POSTGRES_DB: postgres_db
+        POSTGRES_PASSWORD: postgres_pw
+        POSTGRES_USER: postgres
+        POSTGRES_PORT: 5432
+      run: | 
+          cd build
+          cmake -GNinja -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ..
+          ./testpos
