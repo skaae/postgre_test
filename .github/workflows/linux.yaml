@@ -39,15 +39,17 @@ jobs:
       env: 
         CC:   clang-10
         CXX:  clang++-10
-        POSTGRES_DB: postgres_db
-        POSTGRES_PASSWORD: postgres_pw
-        POSTGRES_USER: postgres
-        POSTGRES_PORT: 5432
       run: | 
-          PGPASSWORD=${POSTGRES_PASSWORD} psql -h localhost -p ${POSTGRES_PORT} -U postgres -d postgres_db -c 'DROP TABLE IF EXISTS xml_stream'
-          PGPASSWORD=${POSTGRES_PASSWORD} psql -h localhost -p ${POSTGRES_PORT} -U postgres -d postgres_db -f ${GITHUB_WORKSPACE}/xml_stream.sql
           cd build
           cmake -GNinja -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ..
+    - name: Build
+      shell: bash
+      env: 
+        CC:   clang-10
+        CXX:  clang++-10
+      run: |
+          cd build
+          cmake --build . --config ${BUILD_TYPE} --target testpos
     - name: C++ Test
       shell: bash
       env: 
@@ -56,5 +58,7 @@ jobs:
         POSTGRES_USER: postgres
         POSTGRES_PORT: 5432
       run: | 
+        PGPASSWORD=${POSTGRES_PASSWORD} psql -h localhost -p ${POSTGRES_PORT} -U postgres -d postgres_db -c 'DROP TABLE IF EXISTS xml_stream'
+        PGPASSWORD=${POSTGRES_PASSWORD} psql -h localhost -p ${POSTGRES_PORT} -U postgres -d postgres_db -f ${GITHUB_WORKSPACE}/xml_stream.sql
         cd bin
         ./testpos
