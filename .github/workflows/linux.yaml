@@ -1,6 +1,6 @@
 name: Linux
 
-on: [push, pull_request]
+on: [pull_request]
 
 
 env:
@@ -29,7 +29,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: install system dependencies
-      run: sudo apt-get install -yq libpq-dev postgresql-server-dev-all
+      run: sudo apt-get install -yq libpq-dev postgresql-server-dev-all build-essential ninja-build clang cmake
     - name: Configure CMake
       # Use a bash shell so we can use the same syntax for environment variable
       # access regardless of the host operating system
