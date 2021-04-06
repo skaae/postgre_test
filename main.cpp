@@ -37,8 +37,6 @@ int main()
 
 
     rigtorp::SPSCQueue<std::unique_ptr<std::string>> xml_queue(123); 
-    //rigtorp::SPSCQueue<Fill> fill_queue(123); 
-    //rigtorp::SPSCQueue<Fill> order_queue(123); 
     
     auto conn0 = create_db_connection("localhost", "postgres_db", "postgres", "postgres_pw", 5433);
 
@@ -81,15 +79,11 @@ int main()
         });
 
 
-    // trader thread pushes msg on queue    
+    // thread pushes msg on queue    
     xml_queue.push(std::make_unique<std::string>(msg));
     std::this_thread::sleep_for(std::chrono::milliseconds(2000));
     
-    /// trading ...
-    // ...
-
-
-    
+ 
     //  cleanup
     xml_queue.push(std::make_unique<std::string>(poison_str));
     xml_consumer.join();
